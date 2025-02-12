@@ -44,9 +44,6 @@ jobs:
           - OFF
         build_shared:
           - OFF
-        enable_indepth:
-          - ON
-          - OFF
 
         exclude:
           - os: windows-2022
@@ -125,32 +122,6 @@ jobs:
             enable_ipo: On
             build_shared: On
             enable_cppcheck: On
-
-          # Duplicated configurations with enable_indepth ON
-          - os: ubuntu-24.04
-            compiler: gcc-13
-            generator: "Ninja Multi-Config"
-            build_type: Release
-            enable_indepth: On
-
-          - os: ubuntu-24.04
-            compiler: gcc-13
-            generator: "Ninja Multi-Config"
-            build_type: Debug
-            enable_indepth: On
-
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Release
-            enable_indepth: On
-
-          - os: windows-2022
-            compiler: msvc
-            generator: "Visual Studio 17 2022"
-            build_type: Debug
-            enable_indepth: On
-
     steps:
       - name: Get number of CPU cores
         uses: SimenB/github-actions-cpu-cores@v2
