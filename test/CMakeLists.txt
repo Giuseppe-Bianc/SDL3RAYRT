@@ -1,10 +1,16 @@
-cmake_minimum_required(VERSION 3.15...3.23)
+cmake_minimum_required(VERSION 3.23...3.28)  # Aggiornare alla versione minima di CMake necessaria
+
+if (${CMAKE_VERSION} VERSION_LESS 3.23)
+  cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+else ()
+  cmake_policy(VERSION 3.28)
+endif ()
 
 project(CmakeConfigPackageTests LANGUAGES CXX)
 
 # ---- Test as standalone project the exported config package ----
 
-if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
+if (PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
   enable_testing()
 
   find_package(SDL3RAYRT CONFIG REQUIRED) # for intro, project_options, ...
@@ -12,8 +18,8 @@ if(PROJECT_IS_TOP_LEVEL OR TEST_INSTALLED_VERSION)
   if(NOT TARGET SDL3RAYRT_options)
     message(FATAL_ERROR "Required config package not found!")
     return() # be strictly paranoid for Template Janitor github action! CK
-  endif()
-endif()
+  endif ()
+endif ()
 
 # ---- Dependencies ----
 
@@ -37,28 +43,28 @@ target_link_libraries(
           SDL3RAYRT::sample_library
           Catch2::Catch2WithMain)
 
-if(WIN32 AND BUILD_SHARED_LIBS)
+if (WIN32 AND BUILD_SHARED_LIBS)
   add_custom_command(
-    TARGET tests
-    PRE_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:tests> $<TARGET_FILE_DIR:tests>
-    COMMAND_EXPAND_LISTS)
-endif()
+          TARGET tests
+          PRE_BUILD
+          COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:tests> $<TARGET_FILE_DIR:tests>
+          COMMAND_EXPAND_LISTS)
+endif ()
 
 # automatically discover tests that are defined in catch based test files you can modify the unittests. Set TEST_PREFIX
 # to whatever you want, or use different for different binaries
 catch_discover_tests(
-  tests
-  TEST_PREFIX
-  "unittests."
-  REPORTER
-  XML
-  OUTPUT_DIR
-  .
-  OUTPUT_PREFIX
-  "unittests."
-  OUTPUT_SUFFIX
-  .xml)
+        tests
+        TEST_PREFIX
+        "unittests."
+        REPORTER
+        XML
+        OUTPUT_DIR
+        .
+        OUTPUT_PREFIX
+        "unittests."
+        OUTPUT_SUFFIX
+        .xml)
 
 # Add a file containing a set of constexpr tests
 add_executable(constexpr_tests constexpr_tests.cpp)
@@ -70,17 +76,17 @@ target_link_libraries(
           Catch2::Catch2WithMain)
 
 catch_discover_tests(
-  constexpr_tests
-  TEST_PREFIX
-  "constexpr."
-  REPORTER
-  XML
-  OUTPUT_DIR
-  .
-  OUTPUT_PREFIX
-  "constexpr."
-  OUTPUT_SUFFIX
-  .xml)
+        constexpr_tests
+        TEST_PREFIX
+        "constexpr."
+        REPORTER
+        XML
+        OUTPUT_DIR
+        .
+        OUTPUT_PREFIX
+        "constexpr."
+        OUTPUT_SUFFIX
+        .xml)
 
 # Disable the constexpr portion of the test, and build again this allows us to have an executable that we can debug when
 # things go wrong with the constexpr testing
@@ -94,14 +100,15 @@ target_link_libraries(
 target_compile_definitions(relaxed_constexpr_tests PRIVATE -DCATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
 
 catch_discover_tests(
-  relaxed_constexpr_tests
-  TEST_PREFIX
-  "relaxed_constexpr."
-  REPORTER
-  XML
-  OUTPUT_DIR
-  .
-  OUTPUT_PREFIX
-  "relaxed_constexpr."
-  OUTPUT_SUFFIX
-  .xml)
+        relaxed_constexpr_tests
+        TEST_PREFIX
+        "relaxed_constexpr."
+        REPORTER
+        XML
+        OUTPUT_DIR
+        .
+        OUTPUT_PREFIX
+        "relaxed_constexpr."
+        OUTPUT_SUFFIX
+        .xml)
+
