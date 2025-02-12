@@ -1,5 +1,13 @@
 // NOLINTBEGIN
+#if defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wuseless-cast"
+#endif
 #include "SDL3/SDL.h"
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 // NOLINTEND
 // NOLINTBEGIN(*-include-cleaner)
 #include <CLI/CLI.hpp>
