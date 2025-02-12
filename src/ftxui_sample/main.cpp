@@ -1,3 +1,6 @@
+// NOLINTBEGIN
+#include "SDL3/SDL.h"
+// NOLINTEND
 // NOLINTBEGIN(*-include-cleaner)
 #include <CLI/CLI.hpp>
 #include <spdlog/spdlog.h>
@@ -7,8 +10,6 @@
 // the source template at `configured_files/config.hpp.in`.
 #include <internal_use_only/config.hpp>
 
-#include "SDL3/SDL.h"
-
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv) {
     try {
@@ -16,10 +17,10 @@ int main(int argc, const char **argv) {
 
         /*std::optional<std::string> message;
         app.add_option("-m,--message", message, "A message to print back out");
-        bool show_version = false;
+        */bool show_version = false;
         app.add_flag("--version", show_version, "Show version information");
 
-        bool is_turn_based = false;
+        /*bool is_turn_based = false;
         auto *turn_based = app.add_flag("--turn_based", is_turn_based);
 
         bool is_loop_based = false;
