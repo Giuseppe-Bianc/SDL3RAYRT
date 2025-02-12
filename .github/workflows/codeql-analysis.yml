@@ -81,12 +81,16 @@ jobs:
           vcpkg: false
           ccache: true
           clangtidy: false
-          doxygen: true
           graphviz: true
           cppcheck: false
 
           gcovr: false
           opencppcoverage: false
+      - name: Install Linux Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxinerama-dev libwayland-dev libxkbcommon-dev wayland-protocols
+
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
