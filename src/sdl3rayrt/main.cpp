@@ -1,17 +1,6 @@
-// NOLINTBEGIN
-#if defined(__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wold-style-cast"
-#pragma GCC diagnostic ignored "-Wuseless-cast"
-#endif
-#include "SDL3/SDL.h"
-#if defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-// NOLINTEND
 // NOLINTBEGIN(*-include-cleaner)
 #include <CLI/CLI.hpp>
-#include <spdlog/spdlog.h>
+#include <SDL3RAYRT/sdl3rayrt.hpp>
 
 // This file will be generated automatically when cur_you run the CMake
 // configuration step. It creates a namespace called `SDL3RAYRT`. You can modify
@@ -20,6 +9,7 @@
 
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv) {
+    INIT_LOG()
     try {
         CLI::App app{fmt::format("{} version {}", SDL3RAYRT::cmake::project_name, SDL3RAYRT::cmake::project_version)};
 
