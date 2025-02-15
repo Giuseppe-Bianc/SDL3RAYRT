@@ -1,7 +1,9 @@
 include(GenerateExportHeader)
 
 #find_package(glm REQUIRED)
-add_library(sdl3rayrt_lib sdl3rayrt.cpp)
+add_library(sdl3rayrt_lib sdl3rayrt.cpp
+        CApp.cpp
+        ../../include/sdl3rayrt_lib/CApp.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
@@ -16,10 +18,7 @@ target_link_libraries(sdl3rayrt_lib
         SDL3RAYRT_options
         SDL3RAYRT_warnings
         PUBLIC
-        fmt::fmt
-        spdlog::spdlog
-        #glm::glm
-        SDL3::SDL3
+        SDL3RAYRT::sdl3rayrt_core_lib
 )
 
 target_include_directories(sdl3rayrt_lib

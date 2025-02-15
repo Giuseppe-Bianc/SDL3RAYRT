@@ -1,2 +1,3 @@
+add_subdirectory(sdl3rayrt_core_lib)
 add_subdirectory(sdl3rayrt_lib)
 add_subdirectory(sdl3rayrt)

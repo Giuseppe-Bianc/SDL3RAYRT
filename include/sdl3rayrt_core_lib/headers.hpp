@@ -75,9 +75,6 @@ DISABLE_WARNINGS_PUSH(
 #include <internal_use_only/config.hpp>
 // Restore warning levels.
 DISABLE_WARNINGS_POP()
-// DISABLE_WARNINGS_PUSH(26476 26446 26482 26497 26472 26440 26447 26490 26481 26429 26493 26438 26455 26432 26496 26485 26819)
-// #include <nlohmann/json.hpp>
-// DISABLE_WARNINGS_POP()
 
 namespace fs = std::filesystem;  // NOLINT(*-unused-alias-decls)
 namespace ch = std::chrono;      // NOLINT(*-unused-alias-decls)
@@ -248,7 +245,7 @@ template <std::integral T> [[nodiscard]] constexpr auto find_divisors(T num) noe
  * @endcode
  */
 #define GENERATOR_FULLNAME                                                                                                                 \
-    FORMAT("{} v{} git sha: {}", Vandior::cmake::project_name, Vandior::cmake::project_version, Vandior::cmake::git_short_sha)
+    FORMAT("{} v{} git sha: {}",  SDL3RAYRT::cmake::project_name,  SDL3RAYRT::cmake::project_version,  SDL3RAYRT::cmake::git_short_sha)
 
 /**
  * @brief Generates the version of the generator.
@@ -260,7 +257,7 @@ template <std::integral T> [[nodiscard]] constexpr auto find_divisors(T num) noe
  * @endcode
  */
 #define GENERATOR_VERSION                                                                                                                  \
-    FORMAT("v{} git sha: {}", Vandior::cmake::project_name, Vandior::cmake::project_version, Vandior::cmake::git_short_sha)
+    FORMAT("v{} git sha: {}",  SDL3RAYRT::cmake::project_name,  SDL3RAYRT::cmake::project_version,  SDL3RAYRT::cmake::git_short_sha)
 
 // NOLINTEND(*-macro-usage)
 

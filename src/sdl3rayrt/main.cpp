@@ -1,21 +1,17 @@
 // NOLINTBEGIN(*-include-cleaner)
 #include <CLI/CLI.hpp>
-#include <SDL3RAYRT/sdl3rayrt.hpp>
-
-// This file will be generated automatically when cur_you run the CMake
-// configuration step. It creates a namespace called `SDL3RAYRT`. You can modify
-// the source template at `configured_files/config.hpp.in`.
-#include <internal_use_only/config.hpp>
+#include <sdl3rayrt_lib/sdl3rayrt.hpp>
 
 // NOLINTNEXTLINE(bugprone-exception-escape)
 int main(int argc, const char **argv) {
     INIT_LOG()
     try {
-        CLI::App app{fmt::format("{} version {}", SDL3RAYRT::cmake::project_name, SDL3RAYRT::cmake::project_version)};
+        CLI::App app{GENERATOR_FULLNAME};
 
         /*std::optional<std::string> message;
         app.add_option("-m,--message", message, "A message to print back out");
-        */bool show_version = false;
+        */
+        bool show_version = false;
         app.add_flag("--version", show_version, "Show version information");
 
         /*bool is_turn_based = false;
@@ -33,7 +29,8 @@ int main(int argc, const char **argv) {
           fmt::print("{}\n", SDL3RAYRT::cmake::project_version);
           return EXIT_SUCCESS;
         }*/
-        spdlog::info("{}", SDL3RAYRT::cmake::project_name);
+        sdlrt::CApp theapp;
+        return theapp.OnExecute();
     } catch(const std::exception &e) { spdlog::error("Unhandled exception in main: {}", e.what()); }
 }
 // NOLINTEND(*-include-cleaner)
