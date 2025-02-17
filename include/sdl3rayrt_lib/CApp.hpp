@@ -6,6 +6,7 @@
 #pragma once
 
 #include "headers.hpp"
+#include "FPSCounter.hpp"
 
 namespace sdlrt {
 
@@ -23,11 +24,16 @@ namespace sdlrt {
     private:
         std::vector<std::uint32_t> m_pixels{};
         // SDL2 stuff.
+
+        //VSync toggle
+        bool vsyncEnabled{ false };
         bool isRunning;
         SDL_Window *pWindow;
         SDL_Renderer *pRenderer;
+        SDL_Surface *pSurface;
+        SDL_Texture *pTexture;
         std::random_device rd;
-        std::mt19937 gen;  // Mersenne Twister RNG
+        std::mt19937 gen{};  // Mersenne Twister RNG
 
         // Define a uniform distribution for RGB values (0-255)
         std::uniform_int_distribution<int> dist;

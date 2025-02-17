@@ -24,7 +24,12 @@ int main(int argc, const char **argv) {
         loop_based->excludes(turn_based);*/
 
         CLI11_PARSE(app, argc, argv);
-
+        LTRACE("Starting main");
+        LINFO("main2");
+        LDEBUG("main3");
+        LERROR("main4");
+        LWARN("main5");
+        LCRITICAL("main6");
         /*if (show_version) {
           fmt::print("{}\n", SDL3RAYRT::cmake::project_version);
           return EXIT_SUCCESS;

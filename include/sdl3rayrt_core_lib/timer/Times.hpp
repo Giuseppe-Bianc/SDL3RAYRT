@@ -50,8 +50,9 @@ namespace vnd {
 
             const auto durationmicros = duration<long double, std::micro>(inputTimeMicro);
 
-            const auto durationUs = duration_cast<microseconds>(durationmicros);
-            const auto durationNs = round<nanoseconds>(durationmicros - durationUs);
+            const auto durationUs = floor<microseconds>(durationmicros);
+            const auto remainderAfterUs = durationmicros - durationUs;
+            const auto durationNs = round<nanoseconds>(remainderAfterUs);
 
             return FORMAT("{}us,{}ns", C_LD(durationUs.count()), C_LD(durationNs.count()));
         }
@@ -61,9 +62,13 @@ namespace vnd {
 
             const auto durationmils = duration<long double, std::milli>(inputTimeMilli);
 
-            const auto durationMs = duration_cast<milliseconds>(durationmils);
-            const auto durationUs = round<microseconds>(durationmils - durationMs);
-            const auto durationNs = round<nanoseconds>(durationmils - durationMs - durationUs);
+            // Use floor to extract whole milliseconds and microseconds.
+            const auto durationMs = floor<milliseconds>(durationmils);
+            const auto remainderAfterMs = durationmils - durationMs;
+            const auto durationUs = floor<microseconds>(remainderAfterMs);
+            const auto remainderAfterUs = remainderAfterMs - durationUs;
+            // Round the final nanoseconds from the remaining fraction.
+            const auto durationNs = round<nanoseconds>(remainderAfterUs);
 
             return FORMAT("{}ms,{}us,{}ns", C_LD(durationMs.count()), C_LD(durationUs.count()), C_LD(durationNs.count()));
         }
@@ -73,10 +78,13 @@ namespace vnd {
 
             const auto durationSecs = duration<long double>(inputTimeSeconds);
 
-            const auto durationSec = duration_cast<seconds>(durationSecs);
-            const auto durationMs = round<milliseconds>(durationSecs - durationSec);
-            const auto durationUs = round<microseconds>(durationSecs - durationSec - durationMs);
-            const auto durationNs = round<nanoseconds>(durationSecs - durationSec - durationMs - durationUs);
+            const auto durationSec = floor<seconds>(durationSecs);
+            const auto remainderAfterSec = durationSecs - durationSec;
+            const auto durationMs = floor<milliseconds>(remainderAfterSec);
+            const auto remainderAfterMs = remainderAfterSec - durationMs;
+            const auto durationUs = round<microseconds>(remainderAfterMs);
+            const auto remainderAfterUs = remainderAfterMs - durationUs;
+            const auto durationNs = round<nanoseconds>(remainderAfterUs);
 
             return FORMAT("{}s,{}ms,{}us,{}ns", C_LD(durationSec.count()), C_LD(durationMs.count()), C_LD(durationUs.count()),
                           C_LD(durationNs.count()));

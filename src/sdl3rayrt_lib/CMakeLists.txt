@@ -3,7 +3,9 @@ include(GenerateExportHeader)
 #find_package(glm REQUIRED)
 add_library(sdl3rayrt_lib sdl3rayrt.cpp
         CApp.cpp
-        ../../include/sdl3rayrt_lib/CApp.hpp)
+        ../../include/sdl3rayrt_lib/CApp.hpp
+        FPSCounter.cpp
+        ../../include/sdl3rayrt_lib/FPSCounter.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
