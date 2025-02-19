@@ -5,8 +5,8 @@
 // NOLINTBEGIN(*-include-cleaner)
 #pragma once
 
-#include "headers.hpp"
 #include "FPSCounter.hpp"
+#include "headers.hpp"
 
 namespace sdlrt {
 
@@ -16,6 +16,8 @@ namespace sdlrt {
 
         int OnExecute();
         bool OnInit();
+        void write_color(Uint32 *pixels, const SDL_PixelFormatDetails *pSurfacepxformat, std::size_t pos, long double g, long double r,
+                         long double b);
         void OnEvent(const SDL_Event *event) noexcept;
         void OnLoop() noexcept;
         void OnRender() noexcept;
@@ -25,8 +27,8 @@ namespace sdlrt {
         std::vector<std::uint32_t> m_pixels{};
         // SDL2 stuff.
 
-        //VSync toggle
-        bool vsyncEnabled{ false };
+        // VSync toggle
+        bool vsyncEnabled{false};
         bool isRunning;
         SDL_Window *pWindow;
         SDL_Renderer *pRenderer;

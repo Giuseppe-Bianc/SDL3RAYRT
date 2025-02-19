@@ -18,7 +18,7 @@ target_link_libraries(sdl3rayrt_core_lib
         PUBLIC
         fmt::fmt
         spdlog::spdlog
-        #glm::glm
+        glm::glm
         SDL3::SDL3
 )
 

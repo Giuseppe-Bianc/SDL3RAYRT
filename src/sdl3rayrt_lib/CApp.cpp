@@ -33,7 +33,7 @@ namespace sdlrt {
                 return false;
             }
             vnd::Timer initstimer("init SDL_Surface");
-            pSurface = SDL_CreateSurface(wwidth ,wheight, SDL_PIXELFORMAT_RGBA32);
+            pSurface = SDL_CreateSurface(wwidth, wheight, SDL_PIXELFORMAT_RGBA32);
             LINFO("{}", initstimer);
             if(pSurface == nullptr) [[unlikely]] {
                 LERROR("SDL_CreateSurface Error: {}", SDL_GetError());
@@ -50,13 +50,21 @@ namespace sdlrt {
         return true;
     }
 
+    void CApp::write_color(Uint32 *pixels, const SDL_PixelFormatDetails *pSurfacepxformat, std::size_t pos, long double g, long double r,
+                         long double b) {
+        auto ir = C_UI8T(255.999L * r);
+        auto ig = C_UI8T(255.999L * g);
+        auto ib = C_UI8T(255.999L * b);
+
+        pixels[pos] = SDL_MapRGBA(pSurfacepxformat, nullptr, ir, ig, ib, 255);
+    }
     int CApp::OnExecute() {
         SDL_Event event{};
 
         if(OnInit() == false) { return -1; }
         SDL_LockSurface(pSurface);
         Uint32 *pixels = (Uint32 *)pSurface->pixels;
-        int pitch =  pSurface->pitch / TypeSizes::sizeOfUint32T;
+        int pitch = pSurface->pitch / TypeSizes::sizeOfUint32T;
         const auto *pSurfacepxformat = SDL_GetPixelFormatDetails(pSurface->format);
         if(pSurfacepxformat == nullptr) [[unlikely]] {
             LERROR("SDL_GetPixelFormatDetails Error: {}", SDL_GetError());
@@ -66,24 +74,26 @@ namespace sdlrt {
             SDL_Quit();
             return -1;
         }
-        for (int j = 0; j < wheight; j++) {
-            for (int i = 0; i < wwidth; i++) {
-                auto r = C_LD(i) / (wwidth-1);
-                auto g = C_LD(j) / (wheight-1);
+        const auto wheight2 = wheight - 1;
+        const auto wwidth2 = wwidth - 1;
+
+        vnd::Timer imgtime("image fill");
+
+        for(int j = 0; j < wheight; j++) {
+            for(int i = 0; i < wwidth; i++) {
+                auto g = C_LD(j) / wheight2;
+                auto r = C_LD(i) / wwidth2;
                 auto b = 0;
-
-                auto ir = C_UI8T(255.999L * r);
-                auto ig = C_UI8T(255.999L * g);
-                auto ib = C_UI8T(255.999L * b);
-
-                pixels[j * pitch + i] = SDL_MapRGBA(pSurfacepxformat,nullptr, ir, ig, ib, 255);
+                auto pos = j * pitch + i;
+                write_color(pixels,pSurfacepxformat, pos, g, r, b);
             }
         }
+        LINFO("{}", imgtime);
         SDL_UnlockSurface(pSurface);
         vnd::Timer initttimer("init SDL_Texture");
         pTexture = SDL_CreateTextureFromSurface(pRenderer, pSurface);
         LINFO("{}", initttimer);
-        if(pTexture == nullptr)  [[unlikely]] {
+        if(pTexture == nullptr) [[unlikely]] {
             LERROR("SDL_CreateTextureFromSurface Error: {}", SDL_GetError());
             SDL_DestroySurface(pSurface);
             SDL_DestroyRenderer(pRenderer);
@@ -134,7 +144,7 @@ namespace sdlrt {
         SDL_RenderClear(pRenderer);
         SDL_RenderTexture(pRenderer, pTexture, nullptr, nullptr);
         SDL_RenderPresent(pRenderer);
-        //SDL_Delay(10);
+        // SDL_Delay(10);
     }
 
     void CApp::OnExit() {

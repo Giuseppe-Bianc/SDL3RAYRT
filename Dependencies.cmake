@@ -24,6 +24,18 @@ function(SDL3RAYRT_setup_dependencies)
   # For each dependency, see if it's
   # already been provided to us by a parent project
 
+  if (NOT TARGET glm::glm)
+    CPMAddPackage(
+            NAME glm
+            GIT_REPOSITORY https://github.com/g-truc/glm.git
+            GIT_TAG master # Use "master" for the latest version
+            OPTIONS # Add options if needed
+            "GLM_TEST_ENABLE OFF" # Disable tests if needed
+            "GLM_ENABLE_CXX_20 ON"
+            "GLM_ENABLE_SIMD_AVX2 ON"
+    )
+  endif ()
+
   if (NOT TARGET fmtlib::fmtlib)
     CPMAddPackage("gh:fmtlib/fmt#11.1.3")
   endif ()
