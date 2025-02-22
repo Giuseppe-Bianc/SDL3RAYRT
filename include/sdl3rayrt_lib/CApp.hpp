@@ -7,6 +7,7 @@
 
 #include "FPSCounter.hpp"
 #include "headers.hpp"
+#include "rayTrace/Image.hpp"
 
 namespace sdlrt {
 
@@ -16,8 +17,6 @@ namespace sdlrt {
 
         int OnExecute();
         bool OnInit();
-        void write_color(Uint32 *pixels, const SDL_PixelFormatDetails *pSurfacepxformat, std::size_t pos, long double g, long double r,
-                         long double b);
         void OnEvent(const SDL_Event *event) noexcept;
         void OnLoop() noexcept;
         void OnRender() noexcept;
@@ -32,13 +31,8 @@ namespace sdlrt {
         bool isRunning;
         SDL_Window *pWindow;
         SDL_Renderer *pRenderer;
-        SDL_Surface *pSurface;
-        SDL_Texture *pTexture;
-        std::random_device rd;
-        std::mt19937 gen{};  // Mersenne Twister RNG
-
-        // Define a uniform distribution for RGB values (0-255)
-        std::uniform_int_distribution<int> dist;
+        SDL_Texture *m_imageTexture = nullptr;
+        Image m_image;
     };
 
 }  // namespace sdlrt

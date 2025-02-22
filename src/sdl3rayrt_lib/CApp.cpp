@@ -5,9 +5,10 @@
 // NOLINTBEGIN(*-include-cleaner)
 #include "sdl3rayrt_lib/CApp.hpp"
 
+DISABLE_WARNINGS_PUSH(26447)
+
 namespace sdlrt {
-    CApp::CApp() noexcept
-      : isRunning(true), pWindow(nullptr), pRenderer(nullptr), gen(rd()), dist(std::uniform_int_distribution<int>(0, 255)) {}
+    CApp::CApp() noexcept : isRunning(true), pWindow(nullptr), pRenderer(nullptr) {}
     bool CApp::OnInit() {
         vnd::Timer inittimer("init SDL");
         const int result = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);  // NOLINT(readability-implicit-bool-conversion)
@@ -32,11 +33,19 @@ namespace sdlrt {
                 SDL_Quit();
                 return false;
             }
-            vnd::Timer initstimer("init SDL_Surface");
-            pSurface = SDL_CreateSurface(wwidth, wheight, SDL_PIXELFORMAT_RGBA32);
-            LINFO("{}", initstimer);
-            if(pSurface == nullptr) [[unlikely]] {
-                LERROR("SDL_CreateSurface Error: {}", SDL_GetError());
+            const auto praova = glm::dvec3(1, 2, 3);
+            LINFO("L {}", glm::length(praova));
+            LINFO("L^2 {}", glm::length2(praova));
+            m_image = Image(wwidth, wheight);
+            m_image.lockImage();
+            vnd::Timer imgtime("image fill");
+            for(int j = 0; j < wheight; j++) {
+                for(int i = 0; i < wwidth; i++) { m_image.setPixelColor(i, j, (C_D(i) / wwidth) * 255.0, (C_D(j) / wheight) * 255.0, 0.0); }
+            }
+            LINFO("{}", imgtime);
+            m_image.unlockImage();
+            m_imageTexture = m_image.createTexture(pRenderer);
+            if(m_imageTexture == nullptr) [[unlikely]] {
                 SDL_DestroyRenderer(pRenderer);
                 SDL_DestroyWindow(pWindow);
                 SDL_Quit();
@@ -50,58 +59,10 @@ namespace sdlrt {
         return true;
     }
 
-    void CApp::write_color(Uint32 *pixels, const SDL_PixelFormatDetails *pSurfacepxformat, std::size_t pos, long double g, long double r,
-                         long double b) {
-        auto ir = C_UI8T(255.999L * r);
-        auto ig = C_UI8T(255.999L * g);
-        auto ib = C_UI8T(255.999L * b);
-
-        pixels[pos] = SDL_MapRGBA(pSurfacepxformat, nullptr, ir, ig, ib, 255);
-    }
     int CApp::OnExecute() {
         SDL_Event event{};
 
         if(OnInit() == false) { return -1; }
-        SDL_LockSurface(pSurface);
-        Uint32 *pixels = (Uint32 *)pSurface->pixels;
-        int pitch = pSurface->pitch / TypeSizes::sizeOfUint32T;
-        const auto *pSurfacepxformat = SDL_GetPixelFormatDetails(pSurface->format);
-        if(pSurfacepxformat == nullptr) [[unlikely]] {
-            LERROR("SDL_GetPixelFormatDetails Error: {}", SDL_GetError());
-            SDL_DestroySurface(pSurface);
-            SDL_DestroyRenderer(pRenderer);
-            SDL_DestroyWindow(pWindow);
-            SDL_Quit();
-            return -1;
-        }
-        const auto wheight2 = wheight - 1;
-        const auto wwidth2 = wwidth - 1;
-
-        vnd::Timer imgtime("image fill");
-
-        for(int j = 0; j < wheight; j++) {
-            for(int i = 0; i < wwidth; i++) {
-                auto g = C_LD(j) / wheight2;
-                auto r = C_LD(i) / wwidth2;
-                auto b = 0;
-                auto pos = j * pitch + i;
-                write_color(pixels,pSurfacepxformat, pos, g, r, b);
-            }
-        }
-        LINFO("{}", imgtime);
-        SDL_UnlockSurface(pSurface);
-        vnd::Timer initttimer("init SDL_Texture");
-        pTexture = SDL_CreateTextureFromSurface(pRenderer, pSurface);
-        LINFO("{}", initttimer);
-        if(pTexture == nullptr) [[unlikely]] {
-            LERROR("SDL_CreateTextureFromSurface Error: {}", SDL_GetError());
-            SDL_DestroySurface(pSurface);
-            SDL_DestroyRenderer(pRenderer);
-            SDL_DestroyWindow(pWindow);
-            SDL_Quit();
-            return -1;
-        }
-        SDL_DestroySurface(pSurface);
         FPSCounter counter(pWindow, wtile.data());
         while(isRunning) {
             while(SDL_PollEvent(&event) != 0) { OnEvent(&event); }
@@ -123,6 +84,7 @@ namespace sdlrt {
             switch(event->key.key) {
             case SDLK_ESCAPE:
                 isRunning = false;
+                LINFO("esc key pressed");
                 break;
             case SDLK_SPACE:
                 vsyncEnabled = !vsyncEnabled;
@@ -142,16 +104,17 @@ namespace sdlrt {
     void CApp::OnRender() noexcept {
         // Set the background colour to white.
         SDL_RenderClear(pRenderer);
-        SDL_RenderTexture(pRenderer, pTexture, nullptr, nullptr);
+        SDL_RenderTexture(pRenderer, m_imageTexture, nullptr, nullptr);
+
         SDL_RenderPresent(pRenderer);
         // SDL_Delay(10);
     }
 
     void CApp::OnExit() {
         vnd::AutoTimer timer{"OnExit"};
-        if(pTexture != nullptr) [[likely]] {
-            SDL_DestroyTexture(pTexture);
-            pTexture = nullptr;
+        if(m_imageTexture != nullptr) [[likely]] {
+            SDL_DestroyTexture(m_imageTexture);
+            m_imageTexture = nullptr;
         }
         // Tidy up SDL2 stuff.
         if(pRenderer != nullptr) [[likely]] {
@@ -168,3 +131,5 @@ namespace sdlrt {
 }  // namespace sdlrt
 
 // NOLINTEND(*-include-cleaner)
+
+DISABLE_WARNINGS_POP()

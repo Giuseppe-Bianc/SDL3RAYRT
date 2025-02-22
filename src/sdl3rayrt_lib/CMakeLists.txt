@@ -5,7 +5,9 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         CApp.cpp
         ../../include/sdl3rayrt_lib/CApp.hpp
         FPSCounter.cpp
-        ../../include/sdl3rayrt_lib/FPSCounter.hpp)
+        ../../include/sdl3rayrt_lib/FPSCounter.hpp
+        rayTrace/Image.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Image.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 

@@ -164,23 +164,21 @@ inline void setup_logger() {
     stdout_sink->set_level(spdlog::level::trace);  // Log info and below (trace, debug, info)
 
     // Stderr sink (colored, for warn to critical levels)
-    auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-    stderr_sink->set_level(spdlog::level::warn);  // Log warn and above (warn, error, critical)
+    // auto stderr_sink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    // stderr_sink->set_level(spdlog::level::warn);  // Log warn and above (warn, error, critical)
 
     // Add sinks to the logger, ensuring no duplicate output for same log level
     sinks.push_back(stdout_sink);
-    //sinks.push_back(stderr_sink);
+    // sinks.push_back(stderr_sink);
 
     // Create logger with the defined sinks
     auto logger = std::make_shared<spdlog::logger>("main", sinks.begin(), sinks.end());
     logger->set_pattern(R"(%^[%T %l] %v%$)");  // Log pattern
-    logger->set_level(spdlog::level::trace);    // Minimum log level (trace)
+    logger->set_level(spdlog::level::trace);   // Minimum log level (trace)
 
     // Set this logger as the default logger
     spdlog::set_default_logger(logger);
 }
-
-
 
 /**
  * @brief Initialize the logging system with default configurations.

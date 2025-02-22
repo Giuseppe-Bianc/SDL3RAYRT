@@ -7,6 +7,9 @@
 
 #include "sdl3rayrt_core_lib/sdl3rayrt_core.hpp"
 
+DISABLE_WARNINGS_PUSH(26429 26460 26481)
+
+#define C_UI32TP(x) static_cast<std::uint32_t *>(x)
 static inline constexpr std::string_view wtile = SDL3RAYRT::cmake::project_name;
 static inline constexpr std::size_t factor = 80;
 static inline constexpr auto wwidth = 16 * factor;
@@ -130,5 +133,7 @@ template <> struct fmt::formatter<SDL_Color> : formatter<std::string_view> {
         }
     }
 };
+
+DISABLE_WARNINGS_POP()
 
 // NOLINTEND(*-include-cleaner)

@@ -5,13 +5,15 @@
 // NOLINTBEGIN(*-include-cleaner)
 #include "sdl3rayrt_lib/FPSCounter.hpp"
 
+DISABLE_WARNINGS_PUSH(26447)
+
 namespace sdlrt {
     FPSCounter::FPSCounter(SDL_Window *window, std::string_view title) noexcept
       : last_time(vnd::clock::now()), frames(0), fps(0.0L), ms_per_frame(0.0L), m_window(window), m_title(title) {}
 
     void FPSCounter::frame(bool vsync, bool showMax) {
         updateFPS();
-        if (showMax) {
+        if(showMax) {
             LINFO("{:.3LF} fps/{} - Max: {:.3LF} - VSync: {}", fps, ms_per_frameComposition, max_fps, vsync ? "Enabled" : "Disabled");
         } else {
             LINFO("{:.3LF} fps/{} - VSync: {}", fps, ms_per_frameComposition, vsync ? "Enabled" : "Disabled");
@@ -20,10 +22,14 @@ namespace sdlrt {
 
     void FPSCounter::frameInTitle(bool vsync, bool showMax) {
         updateFPS();
-        if (showMax) {
-            SDL_SetWindowTitle(m_window, FORMATST("{} - {:.3LF} fps/{} - Max: {:.3LF} - VSync: {}", m_title, fps, ms_per_frameComposition, max_fps, vsync ? "Enabled" : "Disabled").c_str());
+        if(showMax) {
+            SDL_SetWindowTitle(m_window, FORMATST("{} - {:.3LF} fps/{} - Max: {:.3LF} - VSync: {}", m_title, fps, ms_per_frameComposition,
+                                                  max_fps, vsync ? "Enabled" : "Disabled")
+                                             .c_str());
         } else {
-            SDL_SetWindowTitle(m_window, FORMATST("{} - {:.3LF} fps/{} - VSync: {}", m_title, fps, ms_per_frameComposition, vsync ? "Enabled" : "Disabled").c_str());
+            SDL_SetWindowTitle(
+                m_window,
+                FORMATST("{} - {:.3LF} fps/{} - VSync: {}", m_title, fps, ms_per_frameComposition, vsync ? "Enabled" : "Disabled").c_str());
         }
     }
 
@@ -62,5 +68,7 @@ namespace sdlrt {
 
     long double FPSCounter::getMsPerFrame() const noexcept { return ms_per_frame; }
 }  // namespace sdlrt
+
+DISABLE_WARNINGS_POP()
 
 // NOLINTEND(*-include-cleaner)
