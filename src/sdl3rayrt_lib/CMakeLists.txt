@@ -7,7 +7,13 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         FPSCounter.cpp
         ../../include/sdl3rayrt_lib/FPSCounter.hpp
         rayTrace/Image.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/Image.hpp)
+        ../../include/sdl3rayrt_lib/rayTrace/Image.hpp
+        rayTrace/Ray.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Ray.hpp
+        rayTrace/Scene.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Scene.hpp
+        rayTrace/Camera.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Camera.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
@@ -47,6 +53,6 @@ set_target_properties(
 
 generate_export_header(sdl3rayrt_lib EXPORT_FILE_NAME ${PROJECT_BINARY_DIR}/include/SDL3RAYRT/sdl3rayrt_lib_export.hpp)
 
-if(NOT BUILD_SHARED_LIBS)
-  target_compile_definitions(sdl3rayrt_lib PUBLIC SAMPLE_LIBRARY_STATIC_DEFINE)
-endif()
+if (NOT BUILD_SHARED_LIBS)
+    target_compile_definitions(sdl3rayrt_lib PUBLIC SAMPLE_LIBRARY_STATIC_DEFINE)
+endif ()

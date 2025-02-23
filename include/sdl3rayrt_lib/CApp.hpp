@@ -7,7 +7,9 @@
 
 #include "FPSCounter.hpp"
 #include "headers.hpp"
+#include "rayTrace/Camera.hpp"
 #include "rayTrace/Image.hpp"
+#include "rayTrace/Scene.hpp"
 
 namespace sdlrt {
 
@@ -33,6 +35,7 @@ namespace sdlrt {
         SDL_Renderer *pRenderer;
         SDL_Texture *m_imageTexture = nullptr;
         Image m_image;
+        Scene m_scene;
     };
 
 }  // namespace sdlrt

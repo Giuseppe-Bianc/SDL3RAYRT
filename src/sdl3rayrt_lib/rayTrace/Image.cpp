@@ -8,7 +8,7 @@
 DISABLE_WARNINGS_PUSH(26467 26481)
 
 namespace sdlrt {
-    Image::Image(int w, int h) {
+    Image::Image(int w, int h) : m_xSize(w), m_ySize(h) {
         vnd::Timer initstimer("init SDL_Surface");
         m_pSurface = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA32);
         LINFO("{}", initstimer);
@@ -50,6 +50,9 @@ namespace sdlrt {
 
         pixels[pos] = SDL_MapRGBA(m_pSurfacepxformat, nullptr, ir, ig, ib, 255);
     }
+
+    int Image::getXSize() const noexcept { return m_xSize; }
+    int Image::getYSize() const noexcept { return m_ySize; }
 
 }  // namespace sdlrt
 

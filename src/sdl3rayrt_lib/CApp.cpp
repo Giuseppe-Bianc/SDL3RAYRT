@@ -37,13 +37,7 @@ namespace sdlrt {
             LINFO("L {}", glm::length(praova));
             LINFO("L^2 {}", glm::length2(praova));
             m_image = Image(wwidth, wheight);
-            m_image.lockImage();
-            vnd::Timer imgtime("image fill");
-            for(int j = 0; j < wheight; j++) {
-                for(int i = 0; i < wwidth; i++) { m_image.setPixelColor(i, j, (C_D(i) / wwidth) * 255.0, (C_D(j) / wheight) * 255.0, 0.0); }
-            }
-            LINFO("{}", imgtime);
-            m_image.unlockImage();
+            m_scene.render(m_image);
             m_imageTexture = m_image.createTexture(pRenderer);
             if(m_imageTexture == nullptr) [[unlikely]] {
                 SDL_DestroyRenderer(pRenderer);
@@ -51,6 +45,21 @@ namespace sdlrt {
                 SDL_Quit();
                 return false;
             }
+            Camera testCamera;
+            testCamera.SetPosition(glm::dvec3(0.0, 0.0, 0.0));
+            testCamera.SetLookAt(glm::dvec3(0.0, 2.0, 0.0));
+            testCamera.SetUp(glm::dvec3(0.0, 0.0, 1.0));
+            testCamera.SetLength(1.0);
+            testCamera.SetHorzSize(1.0);
+            testCamera.SetAspect(1.0);
+            testCamera.UpdateCameraGeometry();
+            auto screenCentre = testCamera.GetScreenCentre();
+            auto screenU = testCamera.GetU();
+            auto screenV = testCamera.GetV();
+            LINFO("screen centre: {}", screenCentre);
+            LINFO("u vector: {}", screenU);
+            LINFO("v vector: {}", screenV);
+
         } else [[unlikely]] {
             LERROR("SDL_CreateWindow Error: {}", SDL_GetError());
             return false;

@@ -18,9 +18,13 @@ namespace sdlrt {
         void unlockImage() noexcept;
         SDL_Texture *createTexture(SDL_Renderer *pRenderer);
         void setPixelColor(int x, int y, const double r, const double g, const double b) noexcept;
+        [[nodiscard]] int getXSize() const noexcept;
+        [[nodiscard]] int getYSize() const noexcept;
 
     private:
         int pitch = 0;
+        int m_xSize = 0;
+        int m_ySize = 0;
         const SDL_PixelFormatDetails *m_pSurfacepxformat = nullptr;
         std::uint32_t *pixels = nullptr;
         SDL_Surface *m_pSurface = nullptr;
