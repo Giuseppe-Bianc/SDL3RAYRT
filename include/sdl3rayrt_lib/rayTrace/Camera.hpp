@@ -12,28 +12,28 @@ namespace sdlrt {
 
     class Camera {
     public:
-        Camera();
+        Camera() noexcept;
         ~Camera() = default;
-        void SetPosition(const glm::dvec3 &newPosition);
-        void SetLookAt(const glm::dvec3 &newLookAt);
-        void SetUp(const glm::dvec3 &upVector);
-        void SetLength(double newLength);
-        void SetHorzSize(double newSize);
-        void SetAspect(double newAspectRatio);
+        void SetPosition(const glm::dvec3 &newPosition) noexcept;
+        void SetLookAt(const glm::dvec3 &newLookAt) noexcept;
+        void SetUp(const glm::dvec3 &upVector) noexcept;
+        void SetLength(double newLength) noexcept;
+        void SetHorzSize(double newSize) noexcept;
+        void SetAspect(double newAspectRatio) noexcept;
 
-        glm::dvec3 GetPosition();
-        glm::dvec3 GetLookAt();
-        glm::dvec3 GetUp();
-        glm::dvec3 GetU();
-        glm::dvec3 GetV();
-        glm::dvec3 GetScreenCentre();
-        double GetLength();
-        double GetHorzSize();
-        double GetAspect();
+        glm::dvec3 GetPosition() const noexcept;
+        glm::dvec3 GetLookAt() const noexcept;
+        glm::dvec3 GetUp() const noexcept;
+        glm::dvec3 GetU() const noexcept;
+        glm::dvec3 GetV() const noexcept;
+        glm::dvec3 GetScreenCentre() const noexcept;
+        double GetLength() const noexcept;
+        double GetHorzSize() const noexcept;
+        double GetAspect() const noexcept;
 
-        Ray GenerateRay(double proScreenX, double proScreenY);
+        bool GenerateRay(double proScreenX, double proScreenY, Ray &ray) noexcept;
 
-        void UpdateCameraGeometry();
+        void UpdateCameraGeometry() noexcept;
 
     private:
         glm::dvec3 m_cameraPosition{};

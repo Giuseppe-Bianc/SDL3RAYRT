@@ -11,7 +11,7 @@ namespace sdlrt {
 
     class Ray {
     public:
-        Ray() noexcept = default;
+        Ray() noexcept;
         Ray(const glm::dvec3 &point1, const glm::dvec3 &point2) noexcept;
 
         [[nodiscard]] auto getPoint1() const noexcept -> const glm::dvec3 &;
@@ -25,6 +25,5 @@ namespace sdlrt {
     };
 
 }  // namespace sdlrt
-
 
 // NOLINTEND(*-include-cleaner)

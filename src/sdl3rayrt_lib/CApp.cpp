@@ -45,20 +45,6 @@ namespace sdlrt {
                 SDL_Quit();
                 return false;
             }
-            Camera testCamera;
-            testCamera.SetPosition(glm::dvec3(0.0, 0.0, 0.0));
-            testCamera.SetLookAt(glm::dvec3(0.0, 2.0, 0.0));
-            testCamera.SetUp(glm::dvec3(0.0, 0.0, 1.0));
-            testCamera.SetLength(1.0);
-            testCamera.SetHorzSize(1.0);
-            testCamera.SetAspect(1.0);
-            testCamera.UpdateCameraGeometry();
-            auto screenCentre = testCamera.GetScreenCentre();
-            auto screenU = testCamera.GetU();
-            auto screenV = testCamera.GetV();
-            LINFO("screen centre: {}", screenCentre);
-            LINFO("u vector: {}", screenU);
-            LINFO("v vector: {}", screenV);
 
         } else [[unlikely]] {
             LERROR("SDL_CreateWindow Error: {}", SDL_GetError());

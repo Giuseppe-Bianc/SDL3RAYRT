@@ -12,8 +12,11 @@ DISABLE_WARNINGS_PUSH(26429 26460 26481)
 #define C_UI32TP(x) static_cast<std::uint32_t *>(x)
 static inline constexpr std::string_view wtile = SDL3RAYRT::cmake::project_name;
 static inline constexpr std::size_t factor = 80;
-static inline constexpr auto wwidth = 16 * factor;
-static inline constexpr auto wheight = 9 * factor;
+static inline constexpr auto wfactor = 16;
+static inline constexpr auto hfactor = 9;
+static inline constexpr auto wwidth = wfactor * factor;
+static inline constexpr auto wheight = hfactor * factor;
+static inline constexpr auto aspectRatio = C_D(wfactor) / C_D(hfactor);
 static inline constexpr std::uint8_t MAX_COLOR_VALUE = 255;
 static inline constexpr auto ALPHA_VALUE = MAX_COLOR_VALUE;
 static inline constexpr auto ALPHA_VALUEI = C_I(MAX_COLOR_VALUE);

@@ -13,7 +13,11 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         rayTrace/Scene.cpp
         ../../include/sdl3rayrt_lib/rayTrace/Scene.hpp
         rayTrace/Camera.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/Camera.hpp)
+        ../../include/sdl3rayrt_lib/rayTrace/Camera.hpp
+        rayTrace/ObjectBase.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/ObjectBase.hpp
+        rayTrace/ObjSphere.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/ObjSphere.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
