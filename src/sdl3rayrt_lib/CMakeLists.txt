@@ -17,7 +17,11 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         rayTrace/ObjectBase.cpp
         ../../include/sdl3rayrt_lib/rayTrace/ObjectBase.hpp
         rayTrace/ObjSphere.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/ObjSphere.hpp)
+        ../../include/sdl3rayrt_lib/rayTrace/ObjSphere.hpp
+        rayTrace/LightBase.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/LightBase.hpp
+        rayTrace/PointLight.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/PointLight.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 

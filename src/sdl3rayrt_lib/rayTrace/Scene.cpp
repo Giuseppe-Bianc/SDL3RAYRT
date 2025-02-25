@@ -9,9 +9,18 @@ namespace sdlrt {
     Scene::Scene() noexcept {
         m_camera.SetPosition(glm::dvec3(0.0, -10.0, 0.0));
         m_camera.SetLookAt(glm::dvec3(0.0, 0.0, 0.0));
+        m_camera.SetUp(glm::dvec3(0.0, 0.0, 1.0));
         m_camera.SetHorzSize(0.25);
         m_camera.SetAspect(aspectRatio);
         m_camera.UpdateCameraGeometry();
+
+        // Construct a test sphere.
+        m_objectList.push_back(MAKE_SHARED(ObjSphere));
+
+        // Construct a test light.
+        m_lightList.push_back(MAKE_SHARED(PointLight));
+        m_lightList.at(0)->m_location = glm::dvec3{5.0, -10.0, 5.0};
+        m_lightList.at(0)->m_color = glm::dvec3{255.0, 255.0, 255.0};
     }
 
     bool Scene::render(Image &image) noexcept {
@@ -37,19 +46,35 @@ namespace sdlrt {
                 // Generate the ray for this pixel.
                 m_camera.GenerateRay(normX, normY, cameraRay);
 
-                // Test if we have a valid intersection.
-                bool validInt = m_testSphere.TestIntersection(cameraRay, intPoint, localNormal, localColor);
+                for(auto currentObject : m_objectList) {
+                    // Test if we have a valid intersection.
+                    bool validInt = currentObject->TestIntersection(cameraRay, intPoint, localNormal, localColor);
 
-                // If we have a valid intersection, change pixel color to red.
-                if(validInt) {
-                    // Compute the distance between the camera and the point of intersection.
-                    double dist = glm::length(intPoint - cameraRay.getPoint1());
-                    minDist = std::min(minDist, dist);
-                    maxDist = std::max(maxDist, dist);
+                    // If we have a valid intersection, change pixel color to red.
+                    if(validInt) {
+                        // Compute intensity of illumination.
+                        double intensity{};
+                        glm::dvec3 color{};
+                        bool validIllum = false;
+                        for(auto currentLight : m_lightList) {
+                            validIllum = currentLight->ComputeIllumination(intPoint, localNormal, m_objectList, currentObject, color,
+                                                                           intensity);
+                        }
 
-                    image.setPixelColor(x, y, 255.0 - ((dist - 9.0) / 0.94605) * 255.0, 0.0, 0.0);
-                } else {
-                    image.setPixelColor(x, y, 0.0, 0.0, 0.0);
+                        // Compute the distance between the camera and the point of intersection.
+                        double dist = glm::length(intPoint - cameraRay.getPoint1());
+                        minDist = std::min(minDist, dist);
+                        maxDist = std::max(maxDist, dist);
+
+                        // image.setPixelColor(x, y, 255.0 - ((dist - 9.0) / 0.94605) * 255.0, 0.0, 0.0);
+                        if(validIllum) {
+                            image.setPixelColor(x, y, 255.0 * intensity, 0.0, 0.0);
+                        } else {
+                            image.setPixelColor(x, y, 0.0, 0.0, 0.0);
+                        }
+                    } else {
+                        image.setPixelColor(x, y, 0.0, 0.0, 0.0);
+                    }
                 }
             }
         }

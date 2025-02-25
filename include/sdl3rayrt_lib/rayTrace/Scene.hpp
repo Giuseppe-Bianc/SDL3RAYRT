@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "Image.hpp"
 #include "ObjSphere.hpp"
+#include "PointLight.hpp"
 
 namespace sdlrt {
 
@@ -20,7 +21,8 @@ namespace sdlrt {
 
     private:
         Camera m_camera;
-        ObjSphere m_testSphere;
+        std::vector<std::shared_ptr<ObjectBase>> m_objectList;
+        std::vector<std::shared_ptr<LightBase>> m_lightList;
     };
 
 }  // namespace sdlrt

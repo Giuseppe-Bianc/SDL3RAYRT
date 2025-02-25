@@ -34,8 +34,8 @@ namespace sdlrt {
                 return false;
             }
             const auto praova = glm::dvec3(1, 2, 3);
-            LINFO("L {}", glm::length(praova));
-            LINFO("L^2 {}", glm::length2(praova));
+            // LINFO("L {}", glm::length(praova));
+            // LINFO("L^2 {}", glm::length2(praova));
             m_image = Image(wwidth, wheight);
             m_scene.render(m_image);
             m_imageTexture = m_image.createTexture(pRenderer);

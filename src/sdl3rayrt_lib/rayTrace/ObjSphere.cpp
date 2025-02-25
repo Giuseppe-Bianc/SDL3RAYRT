@@ -46,7 +46,7 @@ namespace sdlrt {
                     intPoint = castRay.getPoint1() + (vhat * t2);
                 }
             }
-
+            localNormal = glm::normalize(intPoint);
             return true;
         } else {
             return false;

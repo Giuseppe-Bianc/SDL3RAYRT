@@ -67,11 +67,7 @@ catch_discover_tests(
         .xml)
 
 # Add a file containing a set of constexpr tests
-add_executable(constexpr_tests constexpr_tests.cpp
-        ../src/sdl3rayrt_lib/rayTrace/ObjectBase.cpp
-        ../include/sdl3rayrt_lib/rayTrace/ObjectBase.hpp
-        ../src/sdl3rayrt_lib/rayTrace/ObjSphere.cpp
-        ../include/sdl3rayrt_lib/rayTrace/ObjSphere.hpp)
+add_executable(constexpr_tests constexpr_tests.cpp)
 target_link_libraries(
         constexpr_tests
         PRIVATE SDL3RAYRT::SDL3RAYRT_warnings
