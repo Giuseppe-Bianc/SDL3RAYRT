@@ -27,8 +27,8 @@ namespace sdlrt {
         Ray Apply(const Ray &inputRay, bool dirFlag);
         glm::dvec3 Apply(const glm::dvec3 &inputVector, bool dirFlag);
         // Functions to return the transform matrices.
-        glm::dmat4 GetForward() const noexcept;
-        glm::dmat4 GetBackward() const noexcept;
+        [[nodiscard]] glm::dmat4 GetForward() const noexcept;
+        [[nodiscard]] glm::dmat4 GetBackward() const noexcept;
 
         // Overload operators.
         friend GTform operator*(const GTform &lhs, const GTform &rhs);

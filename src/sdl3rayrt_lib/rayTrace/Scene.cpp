@@ -8,7 +8,7 @@
 namespace sdlrt {
     Scene::Scene() noexcept {
         DISABLE_WARNINGS_PUSH(26447)
-        m_camera.SetPosition(glm::dvec3(0.0, -10.0, 0.0));
+        m_camera.SetPosition(glm::dvec3(0.0, -10.0, -1.0));
         m_camera.SetLookAt(glm::dvec3(0.0, 0.0, 0.0));
         m_camera.SetUp(glm::dvec3(0.0, 0.0, 1.0));
         m_camera.SetHorzSize(0.25);
@@ -19,6 +19,13 @@ namespace sdlrt {
         m_objectList.push_back(MAKE_SHARED(ObjSphere));
         m_objectList.push_back(MAKE_SHARED(ObjSphere));
         m_objectList.push_back(MAKE_SHARED(ObjSphere));
+        m_objectList.push_back(MAKE_SHARED(ObjPlane));
+        m_objectList.at(3)->m_baseColor = glm::dvec3{128.0, 128.0, 128.0};
+
+        // Define a transform for the plane.
+        GTform planeMatrix;
+        planeMatrix.SetTransform(glm::dvec3{0.0, 0.0, 0.75}, glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{4.0, 4.0, 1.0});
+        m_objectList.at(3)->SetTransformMatrix(planeMatrix);
 
         GTform testMatrix1, testMatrix2, testMatrix3;
         testMatrix1.SetTransform(glm::dvec3{-1.5, 0.0, 0.0}, glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{0.5, 0.5, 0.75});
@@ -62,13 +69,19 @@ namespace sdlrt {
                 // Generate the ray for this pixel.
                 m_camera.GenerateRay(normX, normY, cameraRay);
 
+                std::shared_ptr<ObjectBase> closestObject;
+                glm::dvec3 closestIntPoint{};
+                glm::dvec3 closestLocalNormal{};
+                glm::dvec3 closestLocalColor{};
+                [[maybe_unused]] double minDist2 = 1e6;
+                [[maybe_unused]] bool intersectionFound = false;
                 for(auto currentObject : m_objectList) {
                     // Test if we have a valid intersection.
                     DISABLE_WARNINGS_PUSH(26447 26496)
                     bool validInt = currentObject->TestIntersection(cameraRay, intPoint, localNormal, localColor);
                     DISABLE_WARNINGS_POP()
 
-                    // If we have a valid intersection, change pixel color to red.
+                    // If we have a valid intersection
                     if(validInt) {
                         // Compute intensity of illumination.
                         double intensity{};
@@ -81,7 +94,7 @@ namespace sdlrt {
                         }
 
                         // Compute the distance between the camera and the point of intersection.
-                        double dist = glm::length(intPoint - cameraRay.getPoint1());
+                        double dist = glm::distance(intPoint, cameraRay.getPoint1());
                         minDist = std::min(minDist, dist);
                         maxDist = std::max(maxDist, dist);
                         DISABLE_WARNINGS_POP()

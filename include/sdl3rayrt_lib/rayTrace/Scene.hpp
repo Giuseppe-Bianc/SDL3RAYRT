@@ -8,6 +8,7 @@
 #include "../headers.hpp"
 #include "Camera.hpp"
 #include "Image.hpp"
+#include "ObjPlane.hpp"
 #include "ObjSphere.hpp"
 #include "PointLight.hpp"
 

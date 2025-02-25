@@ -21,3 +21,14 @@ namespace sdlrt {
 }  // namespace sdlrt
 
 // NOLINTEND(*-include-cleaner)
+/*
+AVX
+AVX2
+AVX512F
+SSE
+SSE2
+SSE3
+SSE4_1
+SSE4_2
+MMX
+ */
