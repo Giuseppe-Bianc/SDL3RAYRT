@@ -14,6 +14,7 @@ namespace sdlrt {
         return false;
     }
     DISABLE_WARNINGS_POP()
+    void ObjectBase::SetTransformMatrix(const GTform &transformMatrix) noexcept { m_transformMatrix = transformMatrix; }
 
     bool ObjectBase::CloseEnough(const double f1, const double f2) noexcept {
         return std::fabs(f1 - f2) < std::numeric_limits<double>::epsilon();

@@ -49,6 +49,8 @@ namespace sdlrt {
 
     glm::dvec3 Camera::GetScreenCentre() const noexcept { return m_projectionScreenCentre; }
 
+    DISABLE_WARNINGS_PUSH(26447)
+
     void Camera::UpdateCameraGeometry() noexcept {
         // First, compute the vector from the camera position to the LookAt position.
         m_alignmentVector = glm::normalize(m_cameraLookAt - m_cameraPosition);
@@ -64,6 +66,7 @@ namespace sdlrt {
         m_projectionScreenU = m_projectionScreenU * m_cameraHorzSize;
         m_projectionScreenV = m_projectionScreenV * (m_cameraHorzSize / m_cameraAspectRatio);
     }
+    DISABLE_WARNINGS_POP()
 
     DISABLE_WARNINGS_PUSH(26496)
 

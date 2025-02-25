@@ -11,7 +11,7 @@ namespace sdlrt {
 
     class PointLight : public LightBase {
     public:
-        PointLight();
+        PointLight() noexcept;
         ~PointLight() override = default;
         bool ComputeIllumination(const glm::dvec3 &intPoint, const glm::dvec3 &localNormal,
                                  const std::vector<std::shared_ptr<ObjectBase>> &objectList,

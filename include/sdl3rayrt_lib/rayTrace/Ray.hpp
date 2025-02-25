@@ -17,6 +17,9 @@ namespace sdlrt {
         [[nodiscard]] auto getPoint1() const noexcept -> const glm::dvec3 &;
         [[nodiscard]] auto getPoint2() const noexcept -> const glm::dvec3 &;
         [[nodiscard]] auto getLab() const noexcept -> const glm::dvec3 &;
+        void setPoint1(const glm::dvec3 &point1) noexcept;
+        void setPoint2(const glm::dvec3 &point2) noexcept;
+        void setLab(const glm::dvec3 &lab) noexcept;
 
     private:
         glm::dvec3 m_point1{};

@@ -6,7 +6,7 @@
 #include "sdl3rayrt_lib/rayTrace/PointLight.hpp"
 
 namespace sdlrt {
-    PointLight::PointLight() {
+    PointLight::PointLight() noexcept {
         m_color = glm::dvec3{1.0, 1.0, 1.0};
         m_intensity = 1.0;
     }
@@ -16,10 +16,10 @@ namespace sdlrt {
                                          [[maybe_unused]] const std::shared_ptr<ObjectBase> &currentObject, glm::dvec3 &color,
                                          double &intensity) {
         // Construct a vector pointing from the intersection point to the light.
-        glm::dvec3 lightDir = glm::normalize(m_location - intPoint);
+        const glm::dvec3 lightDir = glm::normalize(m_location - intPoint);
 
         // Compute a starting point.
-        glm::dvec3 startPoint = intPoint;
+        const glm::dvec3 startPoint = intPoint;
 
         // Compute the angle between the local normal and the light ray.
         // Note that we assume that localNormal is a unit vector.

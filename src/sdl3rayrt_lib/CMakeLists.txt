@@ -21,7 +21,9 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         rayTrace/LightBase.cpp
         ../../include/sdl3rayrt_lib/rayTrace/LightBase.hpp
         rayTrace/PointLight.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/PointLight.hpp)
+        ../../include/sdl3rayrt_lib/rayTrace/PointLight.hpp
+        rayTrace/GTform.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/GTform.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 

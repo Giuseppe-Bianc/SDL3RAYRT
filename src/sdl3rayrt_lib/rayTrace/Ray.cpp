@@ -14,6 +14,10 @@ namespace sdlrt {
     auto Ray::getPoint2() const noexcept -> const glm::dvec3 & { return m_point2; }
     auto Ray::getLab() const noexcept -> const glm::dvec3 & { return m_lab; }
 
+    void Ray::setPoint1(const glm::dvec3 &point1) noexcept { this->m_point1 = point1; }
+    void Ray::setPoint2(const glm::dvec3 &point2) noexcept { this->m_point2 = point2; }
+    void Ray::setLab(const glm::dvec3 &lab) noexcept { this->m_lab = lab; }
+
 }  // namespace sdlrt
 
 // NOLINTEND(*-include-cleaner)

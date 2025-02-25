@@ -7,6 +7,7 @@
 
 namespace sdlrt {
     Scene::Scene() noexcept {
+        DISABLE_WARNINGS_PUSH(26447)
         m_camera.SetPosition(glm::dvec3(0.0, -10.0, 0.0));
         m_camera.SetLookAt(glm::dvec3(0.0, 0.0, 0.0));
         m_camera.SetUp(glm::dvec3(0.0, 0.0, 1.0));
@@ -16,11 +17,26 @@ namespace sdlrt {
 
         // Construct a test sphere.
         m_objectList.push_back(MAKE_SHARED(ObjSphere));
+        m_objectList.push_back(MAKE_SHARED(ObjSphere));
+        m_objectList.push_back(MAKE_SHARED(ObjSphere));
+
+        GTform testMatrix1, testMatrix2, testMatrix3;
+        testMatrix1.SetTransform(glm::dvec3{-1.5, 0.0, 0.0}, glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{0.5, 0.5, 0.75});
+        testMatrix2.SetTransform(glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{0.75, 0.5, 0.5});
+        testMatrix3.SetTransform(glm::dvec3{1.5, 0.0, 0.0}, glm::dvec3{0.0, 0.0, 0.0}, glm::dvec3{0.75, 0.75, 0.75});
+        m_objectList.at(0)->SetTransformMatrix(testMatrix1);
+        m_objectList.at(1)->SetTransformMatrix(testMatrix2);
+        m_objectList.at(2)->SetTransformMatrix(testMatrix3);
+
+        m_objectList.at(0)->m_baseColor = glm::dvec3{64.0, 128.0, 200.0};
+        m_objectList.at(1)->m_baseColor = glm::dvec3{255.0, 128.0, 0.0};
+        m_objectList.at(2)->m_baseColor = glm::dvec3{255.0, 200.0, 0.0};
 
         // Construct a test light.
         m_lightList.push_back(MAKE_SHARED(PointLight));
-        m_lightList.at(0)->m_location = glm::dvec3{5.0, -10.0, 5.0};
+        m_lightList.at(0)->m_location = glm::dvec3{5.0, -10.0, -5.0};
         m_lightList.at(0)->m_color = glm::dvec3{255.0, 255.0, 255.0};
+        DISABLE_WARNINGS_POP()
     }
 
     bool Scene::render(Image &image) noexcept {
@@ -48,7 +64,9 @@ namespace sdlrt {
 
                 for(auto currentObject : m_objectList) {
                     // Test if we have a valid intersection.
+                    DISABLE_WARNINGS_PUSH(26447 26496)
                     bool validInt = currentObject->TestIntersection(cameraRay, intPoint, localNormal, localColor);
+                    DISABLE_WARNINGS_POP()
 
                     // If we have a valid intersection, change pixel color to red.
                     if(validInt) {
@@ -56,6 +74,7 @@ namespace sdlrt {
                         double intensity{};
                         glm::dvec3 color{};
                         bool validIllum = false;
+                        DISABLE_WARNINGS_PUSH(26447)
                         for(auto currentLight : m_lightList) {
                             validIllum = currentLight->ComputeIllumination(intPoint, localNormal, m_objectList, currentObject, color,
                                                                            intensity);
@@ -65,23 +84,27 @@ namespace sdlrt {
                         double dist = glm::length(intPoint - cameraRay.getPoint1());
                         minDist = std::min(minDist, dist);
                         maxDist = std::max(maxDist, dist);
+                        DISABLE_WARNINGS_POP()
 
                         // image.setPixelColor(x, y, 255.0 - ((dist - 9.0) / 0.94605) * 255.0, 0.0, 0.0);
                         if(validIllum) {
-                            image.setPixelColor(x, y, 255.0 * intensity, 0.0, 0.0);
+                            // image.setPixelColor(x, y, 255.0 * intensity, 0.0, 0.0);
+                            image.setPixelColor(x, y, localColor.r * intensity, localColor.g * intensity, localColor.b * intensity);
                         } else {
-                            image.setPixelColor(x, y, 0.0, 0.0, 0.0);
+                            // image.setPixelColor(x, y, 0.0, 0.0, 0.0);
                         }
                     } else {
-                        image.setPixelColor(x, y, 0.0, 0.0, 0.0);
+                        // image.setPixelColor(x, y, 0.0, 0.0, 0.0);
                     }
                 }
             }
         }
+        DISABLE_WARNINGS_PUSH(26447)
         LINFO("{}", imgtime);
         image.unlockImage();
         LINFO("minDist: {}", minDist);
         LINFO("maxDist: {}", maxDist);
+        DISABLE_WARNINGS_POP()
 
         return true;
     }

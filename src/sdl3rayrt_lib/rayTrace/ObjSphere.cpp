@@ -3,17 +3,18 @@
  * Copyright (c) 2025 All rights reserved.
  */
 
-// NOLINTBEGIN(*-include-cleaner)
+// NOLINTBEGIN(*-include-cleaner, *-easily-swappable-parameters)
 #include "sdl3rayrt_lib/rayTrace/ObjSphere.hpp"
 
 DISABLE_WARNINGS_PUSH(26496)
 
 namespace sdlrt {
-    bool ObjSphere::TestIntersection(const Ray &castRay, [[maybe_unused]] glm::dvec3 &intPoint, [[maybe_unused]] glm::dvec3 &localNormal,
-                                     [[maybe_unused]] glm::dvec3 &localColor) {
+    bool ObjSphere::TestIntersection(const Ray &castRay, glm::dvec3 &intPoint, glm::dvec3 &localNormal, glm::dvec3 &localColor) {
+        // Copy the ray and apply the backwards transform.
+        Ray bckRay = m_transformMatrix.Apply(castRay, BCKTFORM);
+
         // Compute the values of a, b and c.
-        glm::dvec3 vhat = glm::normalize(castRay.getLab());
-        // vhat = glm::normalize(vhat);
+        glm::dvec3 vhat = glm::normalize(bckRay.getLab());
 
         /* Note that a is equal to the squared magnitude of the
             direction of the cast ray. As this will be a unit vector,
@@ -21,14 +22,15 @@ namespace sdlrt {
         // a = 1.0;
 
         // Calculate b.
-        double b = 2.0 * glm::dot(castRay.getPoint1(), vhat);
+        double b = 2.0 * glm::dot(bckRay.getPoint1(), vhat);
 
         // Calculate c.
-        double c = glm::dot(castRay.getPoint1(), castRay.getPoint1()) - 1.0;
+        double c = glm::dot(bckRay.getPoint1(), bckRay.getPoint1()) - 1.0;
 
         // Test whether we actually have an intersection.
         double intTest = (b * b) - 4.0 * c;
 
+        glm::dvec3 poi{};
         if(intTest > 0.0) {
             double numSQRT = std::sqrt(intTest);
             double t1 = (-b + numSQRT) / 2.0;
@@ -41,12 +43,23 @@ namespace sdlrt {
             } else {
                 // Determine which point of intersection was closest to the camera.
                 if(t1 < t2) {
-                    intPoint = castRay.getPoint1() + (vhat * t1);
+                    poi = bckRay.getPoint1() + (vhat * t1);
                 } else {
-                    intPoint = castRay.getPoint1() + (vhat * t2);
+                    poi = bckRay.getPoint1() + (vhat * t2);
                 }
+
+                // Transform the intersection point back into world coordinates.
+                intPoint = m_transformMatrix.Apply(poi, FWDTFORM);
+
+                // Compute the local normal (easy for a sphere at the origin!).
+                glm::dvec3 objOrigin = glm::dvec3{0.0, 0.0, 0.0};
+                glm::dvec3 newObjOrigin = m_transformMatrix.Apply(objOrigin, FWDTFORM);
+                localNormal = glm::normalize(intPoint - newObjOrigin);
+
+                // Return the base color.
+                localColor = m_baseColor;
             }
-            localNormal = glm::normalize(intPoint);
+
             return true;
         } else {
             return false;
@@ -56,4 +69,4 @@ namespace sdlrt {
 }  // namespace sdlrt
 
 DISABLE_WARNINGS_POP()
-// NOLINTEND(*-include-cleaner)
+// NOLINTEND(*-include-cleaner, *-easily-swappable-parameters)
