@@ -34,7 +34,8 @@ namespace sdlrt {
         SDL_Window *pWindow;
         SDL_Renderer *pRenderer;
         SDL_Texture *m_imageTexture = nullptr;
-        Image m_image;
+        // Image m_image;
+        qbImage m_image;
         Scene m_scene;
     };
 

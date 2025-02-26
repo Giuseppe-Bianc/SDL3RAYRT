@@ -2,7 +2,7 @@
  * Created by gbian on 24/02/2025.
  * Copyright (c) 2025 All rights reserved.
  */
-
+// NOLINTBEGIN(*-include-cleaner)
 #include "sdl3rayrt_lib/rayTrace/PointLight.hpp"
 
 namespace sdlrt {
@@ -12,34 +12,60 @@ namespace sdlrt {
     }
 
     bool PointLight::ComputeIllumination(const glm::dvec3 &intPoint, const glm::dvec3 &localNormal,
-                                         [[maybe_unused]] const std::vector<std::shared_ptr<ObjectBase>> &objectList,
-                                         [[maybe_unused]] const std::shared_ptr<ObjectBase> &currentObject, glm::dvec3 &color,
-                                         double &intensity) {
+                                         const std::vector<std::shared_ptr<ObjectBase>> &objectList,
+                                         const std::shared_ptr<ObjectBase> &currentObject, glm::dvec3 &color, double &intensity) {
         // Construct a vector pointing from the intersection point to the light.
-        const glm::dvec3 lightDir = glm::normalize(m_location - intPoint);
-
+        glm::dvec3 lightDir = glm::normalize(m_location - intPoint);
         // Compute a starting point.
-        const glm::dvec3 startPoint = intPoint;
+        glm::dvec3 startPoint = intPoint;
 
-        // Compute the angle between the local normal and the light ray.
-        // Note that we assume that localNormal is a unit vector.
-        double angle = std::acos(glm::dot(localNormal, lightDir));
+        // Construct a ray from the point of intersection to the light.
+        Ray lightRay(startPoint, startPoint + lightDir);
 
-        // If the normal is pointing away from the light, then we have no illumination.
-        if(angle > 1.5708) {
-            // No illumination.
+        /* Check for intersections with all of the objects
+            in the scene, except for the current one. */
+        glm::dvec3 poi{};
+        glm::dvec3 poiNormal{};
+        glm::dvec3 poiColor{};
+        bool validInt = false;
+        for(auto sceneObject : objectList) {
+            if(sceneObject != currentObject) { validInt = sceneObject->TestIntersection(lightRay, poi, poiNormal, poiColor); }
+
+            /* If we have an intersection, then there is no point checking further
+                so we can break out of the loop. In other words, this object is
+                blocking light from this light source. */
+            if(validInt) break;
+        }
+
+        /* Only continue to compute illumination if the light ray didn't
+            intersect with any objects in the scene. Ie. no objects are
+            casting a shadow from this light source. */
+        if(!validInt) {
+            // Compute the angle between the local normal and the light ray.
+            // Note that we assume that localNormal is a unit vector.
+            double angle = std::acos(glm::dot(localNormal, lightDir));
+
+            // If the normal is pointing away from the light, then we have no illumination.
+            if(angle > HALF_PID) {
+                // No illumination.
+                color = m_color;
+                intensity = 0.0;
+                return false;
+            } else {
+                // We do have illumination.
+                color = m_color;
+                intensity = m_intensity * (1.0 - (angle / HALF_PID));
+                // intensity = 1.0;
+                return true;
+            }
+        } else {
+            // Shadow, so no illumination.
             color = m_color;
             intensity = 0.0;
             return false;
-        } else {
-            // We do have illumination.
-            color = m_color;
-            intensity = m_intensity * (1.0 - (angle / 1.5708));
-            // intensity = 1.0;
-            return true;
         }
-
-        return true;
     }
 
 }  // namespace sdlrt
+
+// NOLINTEND(*-include-cleaner)

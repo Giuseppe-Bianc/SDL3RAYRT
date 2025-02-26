@@ -18,7 +18,7 @@ namespace sdlrt {
     public:
         Scene() noexcept;
         ~Scene() = default;
-        bool render(Image &image) noexcept;
+        bool render(qbImage &image) noexcept;
 
     private:
         Camera m_camera;

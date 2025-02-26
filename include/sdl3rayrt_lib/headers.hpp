@@ -20,7 +20,7 @@ static inline constexpr auto aspectRatio = C_D(wfactor) / C_D(hfactor);
 static inline constexpr std::uint8_t MAX_COLOR_VALUE = 255;
 static inline constexpr auto ALPHA_VALUE = MAX_COLOR_VALUE;
 static inline constexpr auto ALPHA_VALUEI = C_I(MAX_COLOR_VALUE);
-
+static inline constexpr auto HALF_PID = C_D(HALF_PI);
 // Example usage:
 // SDL_Color color = {255, 165, 0, 255};
 // std::string s1 = fmt::format("{}", color);                // Default format: (r:255, g:165, b:0, a:255)

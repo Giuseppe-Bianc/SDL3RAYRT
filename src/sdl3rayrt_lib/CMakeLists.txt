@@ -30,9 +30,9 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
 # Retrieve the target name
-#get_target_property(target_name vandior_core_lib NAME)
-#include("${CMAKE_SOURCE_DIR}/cmake/Simd.cmake")
-#set_simd_instructions(${target_name})
+get_target_property(target_name sdl3rayrt_lib NAME)
+include("${CMAKE_SOURCE_DIR}/cmake/Simd.cmake")
+set_simd_instructions(${target_name})
 
 
 target_link_libraries(sdl3rayrt_lib

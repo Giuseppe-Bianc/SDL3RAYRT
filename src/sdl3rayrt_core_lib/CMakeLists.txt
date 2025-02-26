@@ -6,9 +6,9 @@ add_library(sdl3rayrt_core_lib sdl3rayrt_core.cpp)
 add_library(SDL3RAYRT::sdl3rayrt_core_lib ALIAS sdl3rayrt_core_lib)
 
 # Retrieve the target name
-#get_target_property(target_name vandior_core_lib NAME)
-#include("${CMAKE_SOURCE_DIR}/cmake/Simd.cmake")
-#set_simd_instructions(${target_name})
+get_target_property(target_name sdl3rayrt_core_lib NAME)
+include("${CMAKE_SOURCE_DIR}/cmake/Simd.cmake")
+set_simd_instructions(${target_name})
 
 
 target_link_libraries(sdl3rayrt_core_lib
@@ -44,6 +44,6 @@ set_target_properties(
 
 generate_export_header(sdl3rayrt_core_lib EXPORT_FILE_NAME ${PROJECT_BINARY_DIR}/include/SDL3RAYRT/sdl3rayrt_core_lib_export.hpp)
 
-if(NOT BUILD_SHARED_LIBS)
+if (NOT BUILD_SHARED_LIBS)
     target_compile_definitions(sdl3rayrt_core_lib PUBLIC SAMPLE_LIBRARY_STATIC_DEFINE)
-endif()
+endif ()

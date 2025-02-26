@@ -36,7 +36,7 @@ namespace sdlrt {
             const auto praova = glm::dvec3(1, 2, 3);
             // LINFO("L {}", glm::length(praova));
             // LINFO("L^2 {}", glm::length2(praova));
-            m_image = Image(wwidth, wheight);
+            /*m_image = Image(wwidth, wheight);
             m_scene.render(m_image);
             m_imageTexture = m_image.createTexture(pRenderer);
             if(m_imageTexture == nullptr) [[unlikely]] {
@@ -45,7 +45,21 @@ namespace sdlrt {
                 SDL_Quit();
                 return false;
             }
+            */
+            m_image.Initialize(1280, 720, pRenderer);
 
+            // Set the background color to white.
+            SDL_SetRenderDrawColor(pRenderer, 255, 255, 255, 255);
+            SDL_RenderClear(pRenderer);
+
+            // Render the scene.
+            m_scene.render(m_image);
+
+            // Display the image.
+            m_image.Display();
+
+            // Show the result.
+            SDL_RenderPresent(pRenderer);
         } else [[unlikely]] {
             LERROR("SDL_CreateWindow Error: {}", SDL_GetError());
             return false;
@@ -98,11 +112,11 @@ namespace sdlrt {
 
     void CApp::OnRender() noexcept {
         // Set the background colour to white.
-        SDL_RenderClear(pRenderer);
-        SDL_RenderTexture(pRenderer, m_imageTexture, nullptr, nullptr);
+        // SDL_RenderClear(pRenderer);
+        // SDL_RenderTexture(pRenderer, m_imageTexture, nullptr, nullptr);
 
-        SDL_RenderPresent(pRenderer);
-        // SDL_Delay(10);
+        // SDL_RenderPresent(pRenderer);
+        //  SDL_Delay(10);
     }
 
     void CApp::OnExit() {

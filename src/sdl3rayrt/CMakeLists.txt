@@ -1,5 +1,9 @@
 add_executable(sdl3rayrt main.cpp)
 
+get_target_property(target_name sdl3rayrt NAME)
+include("${CMAKE_SOURCE_DIR}/cmake/Simd.cmake")
+set_simd_instructions(${target_name})
+
 target_link_libraries(
         sdl3rayrt
         PRIVATE SDL3RAYRT::SDL3RAYRT_options
