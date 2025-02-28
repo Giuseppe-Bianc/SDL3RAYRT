@@ -5,7 +5,7 @@
 // NOLINTBEGIN(*-include-cleaner)
 #pragma once
 
-#include "GTform.hpp"
+#include "../GTform.hpp"
 #include "ObjectBase.hpp"
 
 namespace sdlrt {

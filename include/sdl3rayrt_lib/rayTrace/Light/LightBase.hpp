@@ -5,9 +5,9 @@
 // NOLINTBEGIN(*-include-cleaner)
 #pragma once
 
-#include "../headers.hpp"
-#include "ObjectBase.hpp"
-#include "Ray.hpp"
+#include "../../headers.hpp"
+#include "../Primatives/ObjectBase.hpp"
+#include "../Ray.hpp"
 
 namespace sdlrt {
 

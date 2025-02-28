@@ -3,7 +3,7 @@
  * Copyright (c) 2025 All rights reserved.
  */
 // NOLINTBEGIN(*-include-cleaner)
-#include "ObjPlane.hpp"
+#include "sdl3rayrt_lib/rayTrace/Primatives/ObjPlane.hpp"
 
 namespace sdlrt {
     bool ObjPlane::TestIntersection(const Ray &castRay, glm::dvec3 &intPoint, glm::dvec3 &localNormal, glm::dvec3 &localColor) {

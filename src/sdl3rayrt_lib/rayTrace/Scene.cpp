@@ -54,7 +54,7 @@ namespace sdlrt {
         DISABLE_WARNINGS_POP()
     }
 
-    bool Scene::render(qbImage &image) noexcept {
+    bool Scene::render(Image &image) noexcept {
         /*const int xSize = image.getXSize();
         const int ySize = image.getYSize();*/
         const int xSize = image.GetXSize();

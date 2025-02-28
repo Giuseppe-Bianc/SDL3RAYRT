@@ -4,7 +4,7 @@
  */
 
 // NOLINTBEGIN(*-include-cleaner, *-easily-swappable-parameters)
-#include "sdl3rayrt_lib/rayTrace/ObjSphere.hpp"
+#include "../../../../include/sdl3rayrt_lib/rayTrace/Primatives/ObjSphere.hpp"
 
 DISABLE_WARNINGS_PUSH(26496)
 

@@ -5,9 +5,9 @@
 // NOLINTBEGIN(*-include-cleaner)
 #pragma once
 
-#include "../headers.hpp"
-#include "GTform.hpp"
-#include "Ray.hpp"
+#include "../../headers.hpp"
+#include "../GTform.hpp"
+#include "../Ray.hpp"
 
 namespace sdlrt {
 

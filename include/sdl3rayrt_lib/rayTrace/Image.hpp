@@ -11,36 +11,11 @@ namespace sdlrt {
 
     class Image {
     public:
-        Image() noexcept = default;
-        Image(int w, int h);
-        ~Image() = default;
-        void lockImage() noexcept;
-        void unlockImage() noexcept;
-        SDL_Texture *createTexture(SDL_Renderer *pRenderer);
-        void setPixelColor(int x, int y, const double r, const double g, const double b) noexcept;
-        [[nodiscard]] int getXSize() const noexcept;
-        [[nodiscard]] int getYSize() const noexcept;
-
-    private:
-        void computeMaxValues() noexcept;
-        int pitch = 0;
-        int m_xSize = 0;
-        int m_ySize = 0;
-        double m_maxRed;
-        double m_maxGreen;
-        double m_maxBlue;
-        double m_overallMax;
-        const SDL_PixelFormatDetails *m_pSurfacepxformat = nullptr;
-        std::uint32_t *pixels = nullptr;
-        SDL_Surface *m_pSurface = nullptr;
-    };
-    class qbImage {
-    public:
         // The constructor.
-        qbImage();
+        Image();
 
         // The destructor.
-        ~qbImage();
+        ~Image();
 
         // Function to initialise.
         void Initialize(const int xSize, const int ySize, SDL_Renderer *pRenderer);

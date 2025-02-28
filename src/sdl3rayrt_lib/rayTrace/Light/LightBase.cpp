@@ -3,7 +3,7 @@
  * Copyright (c) 2025 All rights reserved.
  */
 // NOLINTBEGIN(*-include-cleaner)
-#include "sdl3rayrt_lib/rayTrace/LightBase.hpp"
+#include "sdl3rayrt_lib/rayTrace/Light/LightBase.hpp"
 
 namespace sdlrt {
     DISABLE_WARNINGS_PUSH(26440)

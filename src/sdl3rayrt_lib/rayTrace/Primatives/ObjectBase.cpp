@@ -3,7 +3,7 @@
  * Copyright (c) 2025 All rights reserved.
  */
 
-#include "sdl3rayrt_lib/rayTrace/ObjectBase.hpp"
+#include "sdl3rayrt_lib/rayTrace/Primatives/ObjectBase.hpp"
 
 namespace sdlrt {
 

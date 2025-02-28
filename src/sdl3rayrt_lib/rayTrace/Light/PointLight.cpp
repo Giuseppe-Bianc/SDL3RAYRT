@@ -3,7 +3,7 @@
  * Copyright (c) 2025 All rights reserved.
  */
 // NOLINTBEGIN(*-include-cleaner)
-#include "sdl3rayrt_lib/rayTrace/PointLight.hpp"
+#include "../../../../include/sdl3rayrt_lib/rayTrace/Light/PointLight.hpp"
 
 namespace sdlrt {
     PointLight::PointLight() noexcept {

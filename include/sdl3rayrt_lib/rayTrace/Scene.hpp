@@ -8,9 +8,9 @@
 #include "../headers.hpp"
 #include "Camera.hpp"
 #include "Image.hpp"
-#include "ObjPlane.hpp"
-#include "ObjSphere.hpp"
-#include "PointLight.hpp"
+#include "Light/PointLight.hpp"
+#include "Primatives/ObjPlane.hpp"
+#include "Primatives/ObjSphere.hpp"
 
 namespace sdlrt {
 
@@ -18,7 +18,7 @@ namespace sdlrt {
     public:
         Scene() noexcept;
         ~Scene() = default;
-        bool render(qbImage &image) noexcept;
+        bool render(Image &image) noexcept;
 
     private:
         Camera m_camera;

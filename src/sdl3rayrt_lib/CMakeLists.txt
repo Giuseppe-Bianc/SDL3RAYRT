@@ -14,18 +14,18 @@ add_library(sdl3rayrt_lib sdl3rayrt.cpp
         ../../include/sdl3rayrt_lib/rayTrace/Scene.hpp
         rayTrace/Camera.cpp
         ../../include/sdl3rayrt_lib/rayTrace/Camera.hpp
-        rayTrace/ObjectBase.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/ObjectBase.hpp
-        rayTrace/ObjSphere.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/ObjSphere.hpp
-        rayTrace/LightBase.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/LightBase.hpp
-        rayTrace/PointLight.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/PointLight.hpp
+        rayTrace/Primatives/ObjectBase.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Primatives/ObjectBase.hpp
+        rayTrace/Primatives/ObjSphere.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Primatives/ObjSphere.hpp
+        rayTrace/Light/LightBase.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Light/LightBase.hpp
+        rayTrace/Light/PointLight.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Light/PointLight.hpp
         rayTrace/GTform.cpp
         ../../include/sdl3rayrt_lib/rayTrace/GTform.hpp
-        ../../include/sdl3rayrt_lib/rayTrace/ObjPlane.cpp
-        ../../include/sdl3rayrt_lib/rayTrace/ObjPlane.hpp)
+        rayTrace/Primatives/ObjPlane.cpp
+        ../../include/sdl3rayrt_lib/rayTrace/Primatives/ObjPlane.hpp)
 
 add_library(SDL3RAYRT::sdl3rayrt_lib ALIAS sdl3rayrt_lib)
 
