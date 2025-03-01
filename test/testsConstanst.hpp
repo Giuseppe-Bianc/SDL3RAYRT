@@ -1,6 +1,6 @@
 // NOLINTBEGIN(*-include-cleaner)
 #pragma once
-#include <SDL3RAYRT/sdl3rayrt.hpp>
+#include <sdl3rayrt_lib/sdl3rayrt.hpp>
 using namespace std::literals::string_view_literals;
 
 static inline constexpr std::size_t t_line = 5;

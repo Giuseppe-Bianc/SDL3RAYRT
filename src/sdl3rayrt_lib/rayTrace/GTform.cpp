@@ -13,13 +13,12 @@ namespace sdlrt {
     GTform::GTform(const glm::dmat4 &fwd, const glm::dmat4 &bck) noexcept : m_fwdtfm(fwd), m_bcktfm(bck) {}
 
     void GTform::SetTransform(const glm::dvec3 &translation, const glm::dvec3 &rotation, const glm::dvec3 &scale) {
-        const glm::dmat4 translationMatrix = glm::translate(glm::dmat4(1.0f), translation);
-        const glm::dmat4 rotationMatrixX = glm::rotate(glm::dmat4(1.0f), rotation.x, glm::dvec3(1.0f, 0.0f, 0.0f));
-        const glm::dmat4 rotationMatrixY = glm::rotate(glm::dmat4(1.0f), rotation.y, glm::dvec3(0.0f, 1.0f, 0.0f));
-        const glm::dmat4 rotationMatrixZ = glm::rotate(glm::dmat4(1.0f), rotation.z, glm::dvec3(0.0f, 0.0f, 1.0f));
-        const glm::dmat4 scaleMatrix = glm::scale(glm::dmat4(1.0f), scale);
+        const glm::dmat4 translationMatrix = glm::translate(glm::dmat4(1.0), translation);
+        const glm::dmat4 rotationMatrix = glm::eulerAngleZYX(
+            rotation.z, rotation.y, rotation.x);  // Create rotation matrix using Euler angles in ZYX order (Yaw, Pitch, Roll)
+        const glm::dmat4 scaleMatrix = glm::scale(glm::dmat4(1.0), scale);
 
-        m_fwdtfm = translationMatrix * scaleMatrix * rotationMatrixX * rotationMatrixY * rotationMatrixZ;
+        m_fwdtfm = translationMatrix * rotationMatrix * scaleMatrix;  // Compose final matrix: M = T * R * S
         m_bcktfm = glm::inverse(m_fwdtfm);
     }
     Ray GTform::Apply(const Ray &inputRay, bool dirFlag) {
@@ -29,12 +28,12 @@ namespace sdlrt {
             // Apply the forward transform.
             outputRay.setPoint1(this->Apply(inputRay.getPoint1(), FWDTFORM));
             outputRay.setPoint2(this->Apply(inputRay.getPoint2(), FWDTFORM));
-            outputRay.setLab(outputRay.getPoint2() - outputRay.getPoint1());
+            outputRay.recalculateLab();
         } else {
             // Apply the backward transform.
             outputRay.setPoint1(this->Apply(inputRay.getPoint1(), BCKTFORM));
             outputRay.setPoint2(this->Apply(inputRay.getPoint2(), BCKTFORM));
-            outputRay.setLab(outputRay.getPoint2() - outputRay.getPoint1());
+            outputRay.recalculateLab();
         }
 
         return outputRay;

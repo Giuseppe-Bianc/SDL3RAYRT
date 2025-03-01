@@ -18,6 +18,24 @@ namespace sdlrt {
     public:
         Scene() noexcept;
         ~Scene() = default;
+        Scene(const Scene &other) : m_camera{other.m_camera}, m_objectList{other.m_objectList}, m_lightList{other.m_lightList} {}
+        Scene(Scene &&other) noexcept
+          : m_camera{std::move(other.m_camera)}, m_objectList{std::move(other.m_objectList)}, m_lightList{std::move(other.m_lightList)} {}
+        Scene &operator=(const Scene &other) {
+            if(this == &other) return *this;
+            m_camera = other.m_camera;
+            m_objectList = other.m_objectList;
+            m_lightList = other.m_lightList;
+            return *this;
+        }
+        Scene &operator=(Scene &&other) noexcept {
+            if(this == &other) return *this;
+            m_camera = std::move(other.m_camera);
+            m_objectList = std::move(other.m_objectList);
+            m_lightList = std::move(other.m_lightList);
+            return *this;
+        }
+
         bool render(Image &image) noexcept;
 
     private:

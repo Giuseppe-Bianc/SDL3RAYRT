@@ -69,12 +69,12 @@ namespace sdlrt {
         double maxDist = 0.0;
         // image.lockImage();
         vnd::Timer imgtime("image fill");
-        for(int x = 0; x < xSize; ++x) {
-            // Normalize the x coordinates.
-            double normX = (C_D(x) * xFact) - 1.0;
-            for(int y = 0; y < ySize; ++y) {
-                // Normalize the y coordinates.
-                double normY = (C_D(y) * yFact) - 1.0;
+        for(int y = 0; y < ySize; ++y) {
+            // Normalize the y coordinates.
+            double normY = (C_D(y) * yFact) - 1.0;
+            for(int x = 0; x < xSize; ++x) {
+                // Normalize the x coordinates.
+                double normX = (C_D(x) * xFact) - 1.0;
 
                 // Generate the ray for this pixel.
                 m_camera.GenerateRay(normX, normY, cameraRay);
@@ -104,11 +104,13 @@ namespace sdlrt {
                             seen before, then store a reference to it. */
                         if(dist < minDist2) {
                             minDist2 = dist;
+                            minDist = minDist2;
                             closestObject = currentObject;
                             closestIntPoint = intPoint;
                             closestLocalNormal = localNormal;
                             closestLocalColor = localColor;
                         }
+                        maxDist = std::max(maxDist, dist);
                     }
                 }
 

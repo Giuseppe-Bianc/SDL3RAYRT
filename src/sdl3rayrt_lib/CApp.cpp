@@ -33,10 +33,10 @@ namespace sdlrt {
                 SDL_Quit();
                 return false;
             }
-            const auto praova = glm::dvec3(1, 2, 3);
-            // LINFO("L {}", glm::length(praova));
-            // LINFO("L^2 {}", glm::length2(praova));
-            /*m_image = Image(wwidth, wheight);
+            /* const auto praova = glm::dvec3(1, 2, 3);
+            LINFO("L {}", glm::length(praova));
+            LINFO("L^2 {}", glm::length2(praova));
+            m_image = Image(wwidth, wheight);
             m_scene.render(m_image);
             m_imageTexture = m_image.createTexture(pRenderer);
             if(m_imageTexture == nullptr) [[unlikely]] {
@@ -121,10 +121,6 @@ namespace sdlrt {
 
     void CApp::OnExit() {
         vnd::AutoTimer timer{"OnExit"};
-        if(m_imageTexture != nullptr) [[likely]] {
-            SDL_DestroyTexture(m_imageTexture);
-            m_imageTexture = nullptr;
-        }
         // Tidy up SDL2 stuff.
         if(pRenderer != nullptr) [[likely]] {
             SDL_DestroyRenderer(pRenderer);

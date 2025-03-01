@@ -1,6 +1,7 @@
+//  NOLINTBEGIN(*-include-cleaner, *-use-anonymous-namespace)
 #include <catch2/catch_test_macros.hpp>
 
-#include <SDL3RAYRT/sdl3rayrt.hpp>
+#include <sdl3rayrt_lib/sdl3rayrt.hpp>
 
 TEST_CASE("the constexpr size of types", "[TypeSizes]") {
     STATIC_REQUIRE(TypeSizes::sizeOfBool == sizeof(bool));
@@ -49,3 +50,5 @@ TEST_CASE("the constexpr size of types", "[TypeSizes]") {
     STATIC_REQUIRE(TypeSizes::sizeOfU16StringView == sizeof(std::u16string_view));
     STATIC_REQUIRE(TypeSizes::sizeOfU32StringView == sizeof(std::u32string_view));
 }
+
+// NOLINTEND(*-include-cleaner, *-use-anonymous-namespace)

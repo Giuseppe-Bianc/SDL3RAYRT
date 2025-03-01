@@ -17,6 +17,7 @@ namespace sdlrt {
     void Ray::setPoint1(const glm::dvec3 &point1) noexcept { this->m_point1 = point1; }
     void Ray::setPoint2(const glm::dvec3 &point2) noexcept { this->m_point2 = point2; }
     void Ray::setLab(const glm::dvec3 &lab) noexcept { this->m_lab = lab; }
+    void Ray::recalculateLab() noexcept { m_lab = m_point2 - m_point1; }
 
 }  // namespace sdlrt
 

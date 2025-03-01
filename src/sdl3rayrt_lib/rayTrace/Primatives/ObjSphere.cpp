@@ -52,7 +52,7 @@ namespace sdlrt {
                 intPoint = m_transformMatrix.Apply(poi, FWDTFORM);
 
                 // Compute the local normal (easy for a sphere at the origin!).
-                glm::dvec3 objOrigin = glm::dvec3{0.0, 0.0, 0.0};
+                auto objOrigin = glm::dvec3{0.0, 0.0, 0.0};
                 glm::dvec3 newObjOrigin = m_transformMatrix.Apply(objOrigin, FWDTFORM);
                 localNormal = glm::normalize(intPoint - newObjOrigin);
 

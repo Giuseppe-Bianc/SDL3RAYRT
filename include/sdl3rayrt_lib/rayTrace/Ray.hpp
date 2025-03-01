@@ -20,6 +20,7 @@ namespace sdlrt {
         void setPoint1(const glm::dvec3 &point1) noexcept;
         void setPoint2(const glm::dvec3 &point2) noexcept;
         void setLab(const glm::dvec3 &lab) noexcept;
+        void recalculateLab() noexcept;
 
     private:
         glm::dvec3 m_point1{};
